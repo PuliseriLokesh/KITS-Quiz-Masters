@@ -1,0 +1,98 @@
+.heading {
+    padding: 40px;
+    text-align: center;
+}
+
+.notice {
+    font-style: italic;
+    color: #555;
+    text-align: center;
+}
+
+.quizzy, .failed {
+    margin: 20px 9px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.quizzy h2, .failed h3 {
+    font-size: 1.8rem; 
+    margin-bottom: 20px;
+}
+
+.candidate-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%; 
+}
+
+.candidate-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.candidate-rank {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.candidate-username, .candidate-marks {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.no-results {
+    text-align: center;
+    margin-top: 20px;
+    color: #ff4444;
+    font-size: 1.5rem;
+}
+
+.delete-scores-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.delete-scores-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.delete-scores-btn:active {
+    background-color: #bd2130;
+    transform: translateY(0);
+}
+
+.chart-field {
+    width: 60%; 
+    max-width: 800px; 
+    margin: 20px auto; 
+    height: 300px; 
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

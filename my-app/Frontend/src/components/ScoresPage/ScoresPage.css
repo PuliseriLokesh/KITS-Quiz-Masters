@@ -1,0 +1,46 @@
+.scorepage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scorepage-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.chart-section {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin: 20px 0;
+}
+
+.error-message, .no-data-message {
+  color: #e74c3c;
+  text-align: center;
+}
+
+.scores-table {
+  margin-top: 20px;
+}
+
+.question-details {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}

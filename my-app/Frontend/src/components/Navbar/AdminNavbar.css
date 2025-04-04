@@ -1,0 +1,20 @@
+.Feature{
+    padding-left: 60.5rem;
+    cursor: pointer;
+   }
+   .is-light {
+       margin-left: 135px;
+   }
+   button {
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+   
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+   

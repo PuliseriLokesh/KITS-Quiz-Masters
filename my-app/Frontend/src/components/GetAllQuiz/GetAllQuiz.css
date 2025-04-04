@@ -1,0 +1,99 @@
+.quizzy {
+    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.headingd {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+    margin: 40px 0;
+    font-weight: bold;
+}
+
+.quiz-holder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.quiz-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-title {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.quiz-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.play, .Deletingquiz {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    flex: 1;
+    margin: 0 5px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.play:hover, .Deletingquiz:hover {
+    background-color: #218838;
+}
+
+.Deletingquiz {
+    background-color: #dc3545;
+}
+
+.Deletingquiz:hover {
+    background-color: #c82333;
+}
+
+.add-question {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.add-question:hover {
+    background-color: #0056b3;
+}
+
+.nothing {
+    color: #ff4444;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 100px;
+}
