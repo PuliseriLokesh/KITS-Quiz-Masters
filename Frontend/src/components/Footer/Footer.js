@@ -28,16 +28,16 @@ const Footer = () => {
             <Link to="/terms-and-conditions">Terms and Conditions</Link>
           </div>
           <div className="social-media">
-            <a href="https://www.facebook.com/puliseri.lokesh.7">
+            <a href="https://www.facebook.com/">
               <img src={img2} alt="Facebook" />
             </a>
-            <a href="https://www.instagram.com/lokesh__puliseri__111/">
+            <a href="https://www.instagram.com/accounts/login/?hl=en">
               <img src={img1} alt="Instagram" />
             </a>
-            <a href="https://www.linkedin.com/in/puliseri-lokesh-483437258/">
+            <a href="https://www.linkedin.com/home">
               <img src={img3} alt="LinkedIn" />
             </a>
-            <a href="https://x.com/Lokesh_Puliseri">
+            <a href="https://x.com/i/flow/login?lang=en">
               <img src={img4} alt="Twitter" />
             </a>
           </div>
