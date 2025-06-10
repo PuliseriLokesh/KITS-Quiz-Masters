@@ -1,221 +1,251 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Link from '@mui/joy/Link';
+import Sheet from '@mui/joy/Sheet';
+import { CssVarsProvider } from '@mui/joy/styles';
+import Typography from '@mui/joy/Typography';
 import axios from 'axios';
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const theme = createTheme();
+const Register = () => {
+  const navigate = useNavigate();
+  const [UserName, setUserName] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-export default function Register() {
-    const [UserName, setUserName] = useState('');
-    const [Email, setEmail] = useState('');
-    const [Password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-
-    const history = useNavigate();
-    
-    const validateForm = () => {
-        // Reset error message
-        setErrorMessage('');
-
-        // Check if all fields are filled
-        if (!UserName || !Email || !Password) {
-            setErrorMessage("Please fill in all fields before submitting.");
-            return false;
-        }
-
-        // Validate username
-        if (UserName.length < 3) {
-            setErrorMessage("Username must be at least 3 characters long.");
-            return false;
-        }
-
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(Email)) {
-            setErrorMessage("Please enter a valid email address.");
-            return false;
-        }
-
-        // Validate password strength
-        if (Password.length < 8) {
-            setErrorMessage("Password must be at least 8 characters long.");
-            return false;
-        }
-
-        // Check for password complexity
-        const hasUpperCase = /[A-Z]/.test(Password);
-        const hasLowerCase = /[a-z]/.test(Password);
-        const hasNumbers = /\d/.test(Password);
-        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(Password);
-
-        if (!(hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar)) {
-            setErrorMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
-            return false;
-        }
-
-        return true;
+  const checkPasswordConstraints = (password) => {
+    return {
+      length: password.length >= 8,
+      capital: /[A-Z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
     };
-    
-    const handleSignUp = async (event) => {
-        event.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
+  };
 
-        setIsLoading(true);
-        
-        try {
-            const response = await axios.post('http://localhost:7018/api/auth/signup', {
-                username: UserName,
-                email: Email,
-                password: Password,
-                role: ["user"]
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            
-            if (response.status === 200) {
-                alert(`Registration successful!\n\nWelcome ${UserName}! Your account has been created.\n\nYou can now login with your email and password.`);
-                history("/");
-            }
-        } catch (error) {
-            console.error("Registration error:", error);
-            
-            if (error.response) {
-                switch (error.response.status) {
-                    case 400:
-                        setErrorMessage("This username or email is already registered. Please try logging in instead or use a different username/email.");
-                        break;
-                    case 409:
-                        setErrorMessage("Invalid registration data. Please check your information and try again.");
-                        break;
-                    case 500:
-                        setErrorMessage("Server error. Please try again later.");
-                        break;
-                    default:
-                        setErrorMessage("Registration failed. Please try again.");
-                }
-            } else if (error.request) {
-                setErrorMessage("Unable to connect to the server. Please check your internet connection and try again.");
-            } else {
-                setErrorMessage("An unexpected error occurred. Please try again later.");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const validatePassword = (password) => {
+    const errors = [];
+    if (password.length < 8) {
+      errors.push("Password must be at least 8 characters long");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("Password must contain at least one capital letter");
+    }
+    if (!/[0-9]/.test(password)) {
+      errors.push("Password must contain at least one number");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      errors.push("Password must contain at least one special character");
+    }
+    return errors;
+  };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        alignItems: 'center',
-                        width: 300,
-                        mx: 'auto',
-                        my: 4,
-                        py: 3,
-                        px: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 2,
-                        borderRadius: 'sm',
-                        boxShadow: 'md',
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
-                    </Typography>
-                    {errorMessage && (
-                        <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-                            {errorMessage}
-                        </Typography>
-                    )}
-                    <Box component="form" noValidate sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="User Name"
-                                    name="username"
-                                    autoComplete="username"
-                                    value={UserName} 
-                                    onChange={(e) => setUserName(e.target.value)}
-                                    error={!!errorMessage && UserName.length < 3}
-                                    helperText={!!errorMessage && UserName.length < 3 ? "Username must be at least 3 characters long" : ""}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={Email} 
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    error={!!errorMessage && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email)}
-                                    helperText={!!errorMessage && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email) ? "Please enter a valid email address" : ""}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    value={Password} 
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    error={!!errorMessage && Password.length < 8}
-                                    helperText={!!errorMessage && Password.length < 8 ? "Password must be at least 8 characters long and contain uppercase, lowercase, numbers, and special characters" : ""}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleSignUp}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? 'Signing Up...' : 'Sign Up'}
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link href="/" variant="body2">
-                                    Already have an account? Sign in
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Box>
-            </Container>
-        </ThemeProvider>
-    );
-}
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setIsLoading(true);
+
+    try {
+      // Check if all fields are filled
+      if (!UserName || !Email || !Password || !ConfirmPassword) {
+        setErrorMessage("Please fill in all fields before submitting.");
+        return false;
+      }
+
+      // Validate password strength
+      const passwordErrors = validatePassword(Password);
+      if (passwordErrors.length > 0) {
+        setErrorMessage(passwordErrors.join("\n"));
+        return false;
+      }
+
+      // Check if passwords match
+      if (Password !== ConfirmPassword) {
+        setErrorMessage("Passwords do not match.");
+        return false;
+      }
+
+      const response = await axios.post("http://localhost:7018/api/auth/signup", {
+        username: UserName,
+        email: Email,
+        password: Password,
+        roles: ["user"],
+      });
+
+      if (response.data) {
+        alert("Registration successful! Please login.");
+        navigate("/login");
+      }
+    } catch (err) {
+      setErrorMessage(
+        err.response?.data?.message || "Registration failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const constraints = checkPasswordConstraints(Password);
+
+  return (
+    <CssVarsProvider>
+      <main className='Login'>
+        <Sheet
+          sx={{
+            width: 300,
+            mx: 'auto',
+            my: 4,
+            py: 3,
+            px: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            borderRadius: 'sm',
+            boxShadow: 'md',
+          }}
+          variant="outlined"
+        >
+          <div>
+            <Typography level="h4" component="h1">
+              <b>Welcome!</b>
+            </Typography>
+            <Typography level="body2">Sign up to get started.</Typography>
+          </div>
+
+          {errorMessage && <Typography color="danger">{errorMessage}</Typography>}
+
+          <FormControl>
+            <FormLabel>Username</FormLabel>
+            <Input
+              name="username"
+              type="text"
+              placeholder="Enter your username"
+              value={UserName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={Email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+              <Typography
+                level="body3"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  color: constraints.length ? 'success.500' : 'danger.500'
+                }}
+              >
+                {constraints.length ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
+                At least 8 characters long
+              </Typography>
+              <Typography
+                level="body3"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  color: constraints.capital ? 'success.500' : 'danger.500'
+                }}
+              >
+                {constraints.capital ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
+                Contains a capital letter
+              </Typography>
+              <Typography
+                level="body3"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  color: constraints.number ? 'success.500' : 'danger.500'
+                }}
+              >
+                {constraints.number ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
+                Contains a number
+              </Typography>
+              <Typography
+                level="body3"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  color: constraints.special ? 'success.500' : 'danger.500'
+                }}
+              >
+                {constraints.special ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
+                Contains a special character
+              </Typography>
+            </Box>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm your password"
+              value={ConfirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            {ConfirmPassword && (
+              <Typography
+                level="body3"
+                sx={{
+                  mt: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  color: Password === ConfirmPassword ? 'success.500' : 'danger.500'
+                }}
+              >
+                {Password === ConfirmPassword ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
+                Passwords match
+              </Typography>
+            )}
+          </FormControl>
+
+          <Button sx={{ mt: 1 }} onClick={handleSignUp} loading={isLoading}>
+            Sign up
+          </Button>
+
+          <Typography
+            endDecorator={<Link href="/login">Sign in</Link>}
+            fontSize="sm"
+            sx={{ alignSelf: 'center' }}
+          >
+            Already have an account?
+          </Typography>
+        </Sheet>
+      </main>
+    </CssVarsProvider>
+  );
+};
+
+export default Register;
