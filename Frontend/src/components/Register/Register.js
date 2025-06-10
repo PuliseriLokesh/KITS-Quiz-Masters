@@ -54,32 +54,28 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      // Check if all fields are filled
       if (!UserName || !Email || !Password || !ConfirmPassword) {
         setErrorMessage("Please fill in all fields before submitting.");
-        return false;
+        setIsLoading(false);
+        return;
       }
-
-      // Validate password strength
       const passwordErrors = validatePassword(Password);
       if (passwordErrors.length > 0) {
         setErrorMessage(passwordErrors.join("\n"));
-        return false;
+        setIsLoading(false);
+        return;
       }
-
-      // Check if passwords match
       if (Password !== ConfirmPassword) {
         setErrorMessage("Passwords do not match.");
-        return false;
+        setIsLoading(false);
+        return;
       }
-
       const response = await axios.post("http://localhost:7018/api/auth/signup", {
         username: UserName,
         email: Email,
         password: Password,
         roles: ["user"],
       });
-
       if (response.data) {
         alert("Registration successful! Please login.");
         navigate("/login");
@@ -97,10 +93,11 @@ const Register = () => {
 
   return (
     <CssVarsProvider>
-      <main className='Login'>
+      <div className="register-center-root">
         <Sheet
           sx={{
-            width: 300,
+            width: '100%',
+            maxWidth: 400,
             mx: 'auto',
             my: 4,
             py: 3,
@@ -110,6 +107,7 @@ const Register = () => {
             gap: 2,
             borderRadius: 'sm',
             boxShadow: 'md',
+            backgroundColor: '#fff',
           }}
           variant="outlined"
         >
@@ -243,7 +241,7 @@ const Register = () => {
             Already have an account?
           </Typography>
         </Sheet>
-      </main>
+      </div>
     </CssVarsProvider>
   );
 };
