@@ -1,3 +1,91 @@
 .Login {
     margin-top: 158px;
 }
+
+/* Remove global scroll lock */
+/* body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+} */
+
+/* Only apply scroll lock to login page root if needed */
+.no-scroll {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+.split-login-root {
+    display: flex;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: #f5f5f5;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.split-login-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background: #f5f5f5;
+}
+.split-login-right {
+    flex: 1;
+    position: relative;
+    background: #2d3559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-width: 0;
+}
+.split-login-bg-img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+    z-index: 1;
+}
+.split-login-image-text {
+    position: absolute;
+    left: 7%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    color: #fff;
+    font-size: 2.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    line-height: 1.2;
+    letter-spacing: 1px;
+    max-width: 60%;
+    text-align: left;
+}
+@media (max-width: 900px) {
+    .split-login-root {
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+    }
+    .split-login-right, .split-login-left {
+        flex: none;
+        width: 100%;
+        min-height: 300px;
+    }
+    .split-login-image-text {
+        position: static;
+        transform: none;
+        font-size: 1.3rem;
+        max-width: 100%;
+        text-align: center;
+        margin: 24px 0 0 0;
+    }
+}
