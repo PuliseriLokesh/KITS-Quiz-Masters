@@ -15,7 +15,7 @@ export default function Login() {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
-    const navigate = useNavigate(); // ✅ Fixed useNavigate
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -30,8 +30,6 @@ export default function Login() {
                 const gg = response.data;  
                 const roles_array = gg.roles || [];
 
-                console.log("User Data:", gg);
-
                 if (roles_array.includes("ROLE_ADMIN")) {
                     navigate("/Admin-page");
                 } else {
@@ -40,10 +38,8 @@ export default function Login() {
             }
         } catch (error) {
             if (error.response) {
-                console.error("Login failed:", error.response.data);
                 setMsg(error.response.data.msg || "Login failed. Please try again.");
             } else {
-                console.error("Unexpected error:", error);
                 setMsg("Something went wrong. Please check your connection.");
             }
         }
@@ -62,8 +58,6 @@ export default function Login() {
                 const gg = response.data;
                 const roles_array = gg.roles || [];
 
-                console.log("Admin Login:", gg);
-
                 if (roles_array.includes("ROLE_ADMIN")) {
                     navigate("/Admin-page");
                 } else if (roles_array.includes("ROLE_USER")) {
@@ -72,10 +66,8 @@ export default function Login() {
             }
         } catch (error) {
             if (error.response) {
-                console.error("Admin login failed:", error.response.data);
                 setMsg(error.response.data.msg || "Login failed. Please try again.");
             } else {
-                console.error("Unexpected error:", error);
                 setMsg("Something went wrong. Please check your connection.");
             }
         }
@@ -83,65 +75,71 @@ export default function Login() {
 
     return (
         <CssVarsProvider>
-            <main className='Login'>
-                <Sheet
-                    sx={{
-                        width: 300,
-                        mx: 'auto', // margin left & right
-                        my: 4, // margin top & bottom
-                        py: 3, // padding top & bottom
-                        px: 2, // padding left & right
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 2,
-                        borderRadius: 'sm',
-                        boxShadow: 'md',
-                    }}
-                    variant="outlined"
-                >
-                    <div>
-                        <Typography level="h4" component="h1">
-                            <b>Welcome!</b>
-                        </Typography>
-                        <Typography level="body2">Sign in to continue.</Typography>
-                    </div>
-
-                    {msg && <Typography color="danger">{msg}</Typography>} {/* ✅ Display error messages */}
-
-                    <FormControl>
-                        <FormLabel>Username</FormLabel>
-                        <Input
-                            name="username"
-                            type="text"
-                            placeholder="Enter your username"
-                            value={Username} 
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </FormControl>
-                    
-                    <FormControl>
-                        <FormLabel>Password</FormLabel>
-                        <Input
-                            name="password"
-                            type="password"
-                            placeholder="Enter your password"
-                            value={Password} 
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </FormControl>
-
-                    <Button sx={{ mt: 1 }} onClick={handleLogin}>Log in</Button>
-                    <Button sx={{ mt: 1 }} onClick={handleLoginAdmin}>Admin? Click here to login</Button>
-
-                    <Typography
-                        endDecorator={<Link href="/sign-up">Sign up</Link>}
-                        fontSize="sm"
-                        sx={{ alignSelf: 'center' }}
+            <div className="split-login-root no-scroll">
+                <div className="split-login-left">
+                    <Sheet
+                        sx={{
+                            width: 350,
+                            mx: 'auto',
+                            py: 4,
+                            px: 3,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+                            backgroundColor: '#fff',
+                        }}
+                        variant="outlined"
                     >
-                        Don&apos;t have an account?
-                    </Typography>
-                </Sheet>
-            </main>
+                        <div>
+                            <Typography level="h4" component="h1">
+                                <b>Welcome!</b>
+                            </Typography>
+                            <Typography level="body2">Sign in to continue.</Typography>
+                        </div>
+                        {msg && <Typography color="danger">{msg}</Typography>}
+                        <FormControl>
+                            <FormLabel>Username</FormLabel>
+                            <Input
+                                name="username"
+                                type="text"
+                                placeholder="Enter your username"
+                                value={Username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Password</FormLabel>
+                            <Input
+                                name="password"
+                                type="password"
+                                placeholder="Enter your password"
+                                value={Password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button sx={{ mt: 1 }} onClick={handleLogin}>Log in</Button>
+                        <Typography
+                            endDecorator={<Link href="/sign-up">Sign up</Link>}
+                            fontSize="sm"
+                            sx={{ alignSelf: 'center' }}
+                        >
+                            Don&apos;t have an account?
+                        </Typography>
+                    </Sheet>
+                </div>
+                <div className="split-login-right">
+                    <div className="split-login-image-text">
+                        <span>Welcome to<br/>KITS Quiz Masters</span>
+                    </div>
+                    <img
+                        src="https://i.pinimg.com/736x/98/96/ee/9896ee1595f5fa28fd679169821f5568.jpg"
+                        alt="Background"
+                        className="split-login-bg-img"
+                    />
+                </div>
+            </div>
         </CssVarsProvider>
     );
 }
